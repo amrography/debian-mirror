@@ -30,24 +30,24 @@ jobs:
 
       - name: Download packages
         run: |
-          mkdir -p pool/main
-          cd pool/main
+          mkdir -p public/pool/main
+          cd public/pool/main
 
           # TopTracker
           curl -L -o toptracker_1.7.7-7583_amd64.deb \
             https://d101nvfmxunqnl.cloudfront.net/desktop/builds/debian/toptracker_1.7.7-7583_amd64.deb
 
-          # Ghostty (using clayrisser repo builds)
+          # Ghostty (from clayrisser builds)
           curl -L -o ghostty_latest_amd64.deb \
             https://github.com/clayrisser/debian-ghostty/releases/latest/download/ghostty_amd64.deb
 
       - name: Build APT repo structure
         run: |
-          mkdir -p dists/stable/main/binary-amd64
-          dpkg-scanpackages --arch amd64 pool /dev/null > dists/stable/main/binary-amd64/Packages
-          gzip -9c dists/stable/main/binary-amd64/Packages > dists/stable/main/binary-amd64/Packages.gz
+          mkdir -p public/dists/stable/main/binary-amd64
+          dpkg-scanpackages --arch amd64 public/pool /dev/null > public/dists/stable/main/binary-amd64/Packages
+          gzip -9c public/dists/stable/main/binary-amd64/Packages > public/dists/stable/main/binary-amd64/Packages.gz
 
-          cat > dists/stable/Release <<EOF
+          cat > public/dists/stable/Release <<EOF
           Origin: amrography
           Label: amrography
           Suite: stable
@@ -59,17 +59,17 @@ jobs:
 
       - name: Sign repo metadata
         run: |
-          cd dists/stable
+          cd public/dists/stable
           gpg --batch --yes -abs -o Release.gpg Release
           gpg --batch --yes --clearsign -o InRelease Release
-          cd ../..
+          cd ../../..
 
       - name: Export public key
         run: |
-          gpg --armor --export > myrepo.gpg
+          gpg --armor --export > public/amrography-debian.gpg
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: public
