@@ -1,0 +1,76 @@
+name: Build APT Repo
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # Runs daily at midnight UTC
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:13
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install tools
+        run: |
+          apt-get update
+          apt-get install -y dpkg-dev curl jq gnupg apt-utils apt-transport-https
+
+      - name: Prepare repo structure
+        run: |
+          mkdir -p pool/main
+          mkdir -p dists/stable/main/binary-amd64
+
+      - name: Download Ghostty for Debian 13
+        run: |
+          GHOSTTY_URL="https://download.opensuse.org/repositories/home:/clayrisser:/sid/Debian_Unstable/amd64/ghostty_1.1.3-4_amd64.deb"
+          echo "Downloading $GHOSTTY_URL"
+          curl -L "$GHOSTTY_URL" -o pool/main/ghostty_1.1.3-4_amd64.deb
+
+      - name: Download TopTracker
+        run: |
+          TOPTRACKER_URL="https://d101nvfmxunqnl.cloudfront.net/desktop/builds/debian/toptracker_1.7.7-7583_amd64.deb"
+          echo "Downloading $TOPTRACKER_URL"
+          curl -L "$TOPTRACKER_URL" -o pool/main/toptracker_1.7.7-7583_amd64.deb
+
+      - name: Build Packages index
+        run: |
+          dpkg-scanpackages pool/ /dev/null > dists/stable/main/binary-amd64/Packages
+          gzip -9c dists/stable/main/binary-amd64/Packages > dists/stable/main/binary-amd64/Packages.gz
+
+      - name: Generate Release file
+        run: |
+          cat > dists/stable/Release <<EOF
+          Origin: MyRepo
+          Label: My Custom APT Repo
+          Suite: stable
+          Codename: stable
+          Architectures: amd64
+          Components: main
+          Description: My custom repo with Ghostty and TopTracker
+          EOF
+
+          apt-ftparchive release dists/stable >> dists/stable/Release
+
+      - name: Import GPG private key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+
+      - name: Sign Release file
+        run: |
+          gpg --batch --yes --pinentry-mode loopback \
+            -abs -o dists/stable/Release.gpg dists/stable/Release
+          gpg --batch --yes --pinentry-mode loopback \
+            --clearsign -o dists/stable/InRelease dists/stable/Release
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
