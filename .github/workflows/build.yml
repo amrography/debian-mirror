@@ -26,6 +26,33 @@ jobs:
           mkdir -p public/pool/main
           mkdir -p public/dists/stable/main/binary-amd64
 
+      - name: Download fzf
+        run: |
+          mkdir -p build/fzf
+          cd build/fzf
+          curl -LO https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz
+          tar -xzf fzf-0.65.1-linux_amd64.tar.gz
+
+          # Make Debian package structure
+          mkdir -p fzf-0.65.1/DEBIAN
+          mkdir -p fzf-0.65.1/usr/local/bin
+          cp fzf fzf-0.65.1/usr/local/bin/
+
+          cat <<EOF > fzf-0.65.1/DEBIAN/control
+          Package: fzf
+          Version: 0.65.1
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Mirror Bot <mirror@githubactions.local>
+          Description: fzf - command-line fuzzy finder (mirrored package)
+          EOF
+
+          dpkg-deb --build fzf-0.65.1
+
+          mkdir -p ../../public/pool/main/
+          mv fzf-0.65.1.deb ../../public/pool/main/
+
       - name: Download packages
         run: |
           # TopTracker
