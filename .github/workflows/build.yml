@@ -38,10 +38,11 @@ jobs:
 
       - name: Generate Packages + Release
         run: |
-          dpkg-scanpackages --arch amd64 pool/main > public/dists/stable/main/binary-amd64/Packages
-          gzip -k public/dists/stable/main/binary-amd64/Packages
+          cd public
+          dpkg-scanpackages --arch amd64 pool/main > dists/stable/main/binary-amd64/Packages
+          gzip -k dists/stable/main/binary-amd64/Packages
 
-          apt-ftparchive release public/dists/stable > public/dists/stable/Release
+          apt-ftparchive release dists/stable > dists/stable/Release
 
       - name: GPG Sign Release
         run: |
