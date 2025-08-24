@@ -3,8 +3,7 @@ name: Build Debian Mirror
 on:
   schedule:
     - cron: "0 0 * * *"   # run daily at midnight UTC
-  branches:
-    - main
+  branches: [ main ]
   workflow_dispatch:
 
 permissions:
