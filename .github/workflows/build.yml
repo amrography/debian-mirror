@@ -39,7 +39,7 @@ jobs:
           curl -L -o toptracker_1.7.7-7583_amd64.deb \
             https://d101nvfmxunqnl.cloudfront.net/desktop/builds/debian/toptracker_1.7.7-7583_amd64.deb
 
-	  # Ghostty (fetch latest amd64 .deb from OBS)
+          # Ghostty (fetch latest amd64 .deb from OBS)
           GHOSTTY_URL=$(curl -s https://download.opensuse.org/repositories/home:/clayrisser:/sid/Debian_Unstable/amd64/ \
             | grep -oP "ghostty_[0-9]+\.[0-9]+\.[0-9]+-[0-9]+_amd64\.deb" \
             | sort -V | tail -n1)
