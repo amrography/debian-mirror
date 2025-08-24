@@ -2,85 +2,62 @@ name: Build Debian Mirror
 
 on:
   push:
-    branches:
-      - main   # run only on push to main
+    branches: [ "main" ]
   schedule:
-    - cron: "0 0 * * *"  # run daily at midnight UTC
-
-permissions:
-  contents: write   # needed for gh-pages push
+    - cron: "0 0 * * *"   # run daily at midnight
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: debian:13
+    permissions:
+      contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Install dependencies
-        env:
-          DEBIAN_FRONTEND: noninteractive
         run: |
-          apt-get update
-          apt-get install -y git curl dpkg-dev gnupg jq apt-transport-https apt-utils
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev gnupg curl
 
-      - name: Import GPG private key
+      - name: Prepare repo structure
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          mkdir -p public/pool/main
+          mkdir -p public/dists/stable/main/binary-amd64
 
       - name: Download packages
         run: |
-          mkdir -p public/pool/main
-          cd public/pool/main
-
           # TopTracker
-          curl -L -o toptracker_1.7.7-7583_amd64.deb \
+          curl -L -o public/pool/main/toptracker_1.7.7-7583_amd64.deb \
             https://d101nvfmxunqnl.cloudfront.net/desktop/builds/debian/toptracker_1.7.7-7583_amd64.deb
 
-          # Ghostty (fetch latest amd64 .deb from OBS)
-          GHOSTTY_URL=$(curl -s https://download.opensuse.org/repositories/home:/clayrisser:/sid/Debian_Unstable/amd64/ \
-            | grep -oP "ghostty_[0-9]+\.[0-9]+\.[0-9]+-[0-9]+_amd64\.deb" \
-            | sort -V | tail -n1)
+          # Ghostty
+          curl -L -o public/pool/main/ghostty_1.1.3-4_amd64.deb \
+            https://download.opensuse.org/repositories/home:/clayrisser:/sid/Debian_Unstable/amd64/ghostty_1.1.3-4_amd64.deb
 
-          if [ -z "$GHOSTTY_URL" ]; then
-            echo "❌ Could not find Ghostty .deb in OBS repo"
-            exit 1
-          fi
-
-          echo "✅ Found Ghostty package: $GHOSTTY_URL"
-          curl -L -o "$GHOSTTY_URL" "https://download.opensuse.org/repositories/home:/clayrisser:/sid/Debian_Unstable/amd64/$GHOSTTY_URL"
-
-      - name: Build APT repo structure
+      - name: Generate Packages + Release
         run: |
-          mkdir -p public/dists/stable/main/binary-amd64
-          dpkg-scanpackages --arch amd64 public/pool /dev/null > public/dists/stable/main/binary-amd64/Packages
-          gzip -9c public/dists/stable/main/binary-amd64/Packages > public/dists/stable/main/binary-amd64/Packages.gz
+          dpkg-scanpackages --arch amd64 pool/main > public/dists/stable/main/binary-amd64/Packages
+          gzip -k public/dists/stable/main/binary-amd64/Packages
 
-          cat > public/dists/stable/Release <<EOF
-          Origin: amrography
-          Label: amrography
-          Suite: stable
-          Codename: stable
-          Architectures: amd64
-          Components: main
-          Description: Custom Debian repo
-          EOF
+          apt-ftparchive release public/dists/stable > public/dists/stable/Release
 
-      - name: Sign repo metadata
+      - name: GPG Sign Release
         run: |
-          cd public/dists/stable
-          gpg --batch --yes -abs -o Release.gpg Release
-          gpg --batch --yes --clearsign -o InRelease Release
-          cd ../../..
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          gpg --batch --yes --pinentry-mode loopback -abs \
+            -o public/dists/stable/Release.gpg public/dists/stable/Release
+          gpg --batch --yes --pinentry-mode loopback --clearsign \
+            -o public/dists/stable/InRelease public/dists/stable/Release
 
-      - name: Export public key
+      - name: Export Public Key
         run: |
-          gpg --armor --export > public/amrography-debian.gpg
+          gpg --export -a > public/amrography-debian.gpg
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: public
+          publish_dir: ./public
+          publish_branch: gh-pages
