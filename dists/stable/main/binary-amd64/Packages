@@ -4,7 +4,7 @@ Architecture: amd64
 Maintainer: Clay Risser <clay@clayrisser.com>
 Installed-Size: 35205
 Depends: libadwaita-1-0 (>= 1.5~beta), libc6 (>= 2.38), libglib2.0-0t64 (>= 2.42.0), libgtk-4-1 (>= 4.12.0), libwayland-client0 (>= 1.9.91), libx11-6
-Filename: public/pool/main/ghostty_1.1.3-4_amd64.deb
+Filename: pool/main/ghostty_1.1.3-4_amd64.deb
 Size: 16584652
 MD5sum: 43438ef5e3863db9be4778122497bf85
 SHA1: 38876131eddc32b13013d3e0ccdf1c92d291de57
@@ -23,7 +23,7 @@ Architecture: amd64
 Maintainer: TopTracker Team <toptracker@toptal.com>
 Installed-Size: 146112
 Depends: libglib2.0-0 (>= 2.34), libstdc++6 (>= 4.9), libxcb-render-util0, libxcb-image0, libxcb-icccm4, libxcb-randr0, libxcb-keysyms1, libxkbcommon0, libxkbcommon-x11-0, libxss1, libappindicator3-1, libdbus-1-3, libpcre2-16-0, pipewire, libpipewire-0.3-0, libgtk-3-0, ffmpeg, libavcodec-extra
-Filename: public/pool/main/toptracker_1.7.7-7583_amd64.deb
+Filename: pool/main/toptracker_1.7.7-7583_amd64.deb
 Size: 48371706
 MD5sum: 18e13146f277eb59a51dfb29928dfc73
 SHA1: 42e6ea1ed46fb66d41a47c1a11c23e996279a2ac

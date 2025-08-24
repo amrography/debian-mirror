@@ -1,26 +1,36 @@
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-Origin: amrography
-Label: amrography
-Suite: stable
-Codename: stable
-Architectures: amd64
-Components: main
-Description: Custom Debian repo
+Date: Sun, 24 Aug 2025 13:22:26 +0000
+MD5Sum:
+ 7cdb96d7a3f1286cb357a3d48aefd3a6               38 Release
+ d5084b60e5d71eef442f7c69e6c61dd3             1882 main/binary-amd64/Packages
+ 49048203283e683ad31b2c0e9ddf5d3f             1032 main/binary-amd64/Packages.gz
+SHA1:
+ 37ba7c443f0671f11bfa75ce24a85cca88082649               38 Release
+ d14e3273805d3431866cf9a87bee57ef8c807d69             1882 main/binary-amd64/Packages
+ f34452da9fd5da7c27ffa6e93b1776247277bc23             1032 main/binary-amd64/Packages.gz
+SHA256:
+ 6fa0ae71c05849f9a99540b0ecfb89fdb5a1776cead269c7df08d1ca6acb5160               38 Release
+ 5e896762ffd88a3c9ab62a120fb19914b35b04ebf5713e3e63ce03a7c9f9cf0d             1882 main/binary-amd64/Packages
+ 0ee4c82bb239e7f8f1ce19fbe3d501693cdaa904b4f3f15e5f4781d73b63a216             1032 main/binary-amd64/Packages.gz
+SHA512:
+ a741602201bc6f94cec81cefe55aceae020427b4f5ff90bbc353a20b48c38e9fd8a85cd1b6ec9e16e779cd8194b1786c5deeb9d5f08335e91182387a11caf152               38 Release
+ e4dd4dad61667dafdb11a4d74a13fdd0ef93180e10affa436624e3563452dd9fef8a749af19dde27929654bfe8b440ea589c61d01fc11b3d7ccf209514ea0450             1882 main/binary-amd64/Packages
+ 112444c2572b2f4952eb7fe4b96235ed9a6fc83b0c3c663f473fdc97e8be1958c4056712cdef72b2fb11649a2bead590bd9f0d49b149b5759bcf96c21142c491             1032 main/binary-amd64/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEElrHTtkj1Awnant5m0RV0J8Zz3K8FAmirD/gACgkQ0RV0J8Zz
-3K/rrw/8C2n4kDPDvdOmfKulk7Gy1QUeLo8iIasS8WQptxvHYYok9NYmJf4SSRUb
-H54H/eoQYdgVUJ7ZJiPOuN7c9KKl+z8OSp7EQet3HrDdSJLyIsZPMl5dP9gBTASi
-sp2Lsy5shVpOJ9LGGphAZfFZC9mie5Sl/r1CWij2GPVQ9bNrb2X0kcH8NQ3GYeMg
-gzLM5A3HwJ76UT6aiK19QF2kYYDJMpnxyEUm9LGVOVdbADyZDzcY+hBkQuDicgC5
-vKK7m0hbXqp2GcfYzSSgX3hrTcPAzNydyoMhLc4JHfIPRmvKvipCB5jqtcM3osqE
-gww2cVcfQ7g7ZA88hWEMwH/6Ko/HhsTESkJogIgFVdSSDsjxbsBDMwiY2uNz4HUe
-9Fzl7ATzSIJUP1gz0AoDwkXeC3LbiTOjDilzSRlioMXecVPe6lT7ceJZTkRfMGWr
-T7Q7Cqzyf+Vmf8vUULptT8Rhsy9KZmOpce4m0QXzUo94zPigmwoAYUhgliQlwpkm
-rWQSuP0Z27JhfP6aw8XdkReRB6pLcYIvZCKvv7Zx3hUGQ/OCY/4ZDA4Q+O3T9hcd
-D+cb9yU0xyEr4XyAMUwj55lmBBdWW4CCe6JWHO+TLGkXJhySUAtMk8zvn9uJMGhK
-Lsw0HAc+SJGZXgFm/tfTfCqSwKeRsSoA8+urxSYahl80AidBPsM=
-=Se7A
+iQIzBAEBCgAdFiEElrHTtkj1Awnant5m0RV0J8Zz3K8FAmirEhIACgkQ0RV0J8Zz
+3K/htw/9E/aAQLkbOapk/S2ggSaO9ArowzIBCkkUHhdNuG1F/oyXrCrY5a0zlHkN
+eHTyTrZl1wM884E7d9BMAX/Wel4o5K1MKv2PgIoIZ6mP49QEiWckcMn/WLLld+ef
+DXrBwxFv/npxk2WrAeEykjBBwxYTAI+2fLDkpoColOHkm4LWZT6C7HngvysoquFZ
+ZB/OUDverRPoCo7WEIEKI7FMiz5I1lfupLNShMGbnrN6de8F8l/m8/gKsmBUgcNe
+bkEN2Nbwl+FCCf1EhJvopFU7zOcY7QpnfGTd9cQ3cwRGLZt4hNsWjjmWUPq/r2p7
+JQVGPM0+pal0t9+aEHOECSDQ6S9J9PrWl1Iwr2jiidp/sxXktk1Y8r+L2OZU/75r
+aR7npsNy58wwz6Rc52lXBnoGExTEvu3wbxzex31pJAYPfuBV11zoLkGKm6n6nycf
+TSNNBx/Sq1G/WahECh9T02vzcQ1Lmkf+tNx+f8N74+nB32O20Zva8H4olOAo8ole
+P+WFJb7ufs2koygriohjRplhX0KJC8l71FUzXeVR/Mqy+QIo7YdQIOPs29UG8FJC
+98faG+G4CkI6DPShsjbVyNBo6kRRWgbOUbsSFVcVIx8I/5PJUfOKNCPkph/6FV1C
+2PfkdIJ/n0bhDnKZhE5+Ku6e2/N51c8G3hTkm1X3OWGSKCCYHmg=
+=v+IU
 -----END PGP SIGNATURE-----

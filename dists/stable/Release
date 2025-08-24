@@ -1,7 +1,17 @@
-Origin: amrography
-Label: amrography
-Suite: stable
-Codename: stable
-Architectures: amd64
-Components: main
-Description: Custom Debian repo
+Date: Sun, 24 Aug 2025 13:22:26 +0000
+MD5Sum:
+ 7cdb96d7a3f1286cb357a3d48aefd3a6               38 Release
+ d5084b60e5d71eef442f7c69e6c61dd3             1882 main/binary-amd64/Packages
+ 49048203283e683ad31b2c0e9ddf5d3f             1032 main/binary-amd64/Packages.gz
+SHA1:
+ 37ba7c443f0671f11bfa75ce24a85cca88082649               38 Release
+ d14e3273805d3431866cf9a87bee57ef8c807d69             1882 main/binary-amd64/Packages
+ f34452da9fd5da7c27ffa6e93b1776247277bc23             1032 main/binary-amd64/Packages.gz
+SHA256:
+ 6fa0ae71c05849f9a99540b0ecfb89fdb5a1776cead269c7df08d1ca6acb5160               38 Release
+ 5e896762ffd88a3c9ab62a120fb19914b35b04ebf5713e3e63ce03a7c9f9cf0d             1882 main/binary-amd64/Packages
+ 0ee4c82bb239e7f8f1ce19fbe3d501693cdaa904b4f3f15e5f4781d73b63a216             1032 main/binary-amd64/Packages.gz
+SHA512:
+ a741602201bc6f94cec81cefe55aceae020427b4f5ff90bbc353a20b48c38e9fd8a85cd1b6ec9e16e779cd8194b1786c5deeb9d5f08335e91182387a11caf152               38 Release
+ e4dd4dad61667dafdb11a4d74a13fdd0ef93180e10affa436624e3563452dd9fef8a749af19dde27929654bfe8b440ea589c61d01fc11b3d7ccf209514ea0450             1882 main/binary-amd64/Packages
+ 112444c2572b2f4952eb7fe4b96235ed9a6fc83b0c3c663f473fdc97e8be1958c4056712cdef72b2fb11649a2bead590bd9f0d49b149b5759bcf96c21142c491             1032 main/binary-amd64/Packages.gz
