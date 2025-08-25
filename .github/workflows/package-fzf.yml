@@ -5,7 +5,7 @@ on:
 
 jobs:
   fzf:
-    uses: ./.github/workflows/packages/base.yml
+    uses: ./.github/workflows/base.yml
     with:
       name: fzf
       version: 0.65.1

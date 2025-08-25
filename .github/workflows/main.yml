@@ -6,10 +6,10 @@ on:
 
 jobs:
   build-fzf:
-    uses: ./.github/workflows/packages/package-fzf.yml
+    uses: ./.github/workflows/package-fzf.yml
 
   build-ghostty:
-    uses: ./.github/workflows/packages/package-ghostty.yml
+    uses: ./.github/workflows/package-ghostty.yml
 
   # package-workflows:
   #   runs-on: ubuntu-latest
@@ -33,6 +33,7 @@ jobs:
 
       - name: Generate Packages + Release
         run: |
+          set -e  # Exit immediately on any command failure
           cd public
           dpkg-scanpackages --arch amd64 pool/main > dists/stable/main/binary-amd64/Packages
           gzip -k dists/stable/main/binary-amd64/Packages
@@ -52,6 +53,7 @@ jobs:
 
       - name: GPG Sign Release
         run: |
+          set -e
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
           gpg --batch --yes --pinentry-mode loopback -abs \
             -o public/dists/stable/Release.gpg public/dists/stable/Release
@@ -59,9 +61,12 @@ jobs:
             -o public/dists/stable/InRelease public/dists/stable/Release
 
       - name: Export Public Key
-        run: gpg --export -a > public/amrography-debian.gpg
+        run: |
+            set -e
+            gpg --export -a > public/amrography-debian.gpg
 
       - name: Deploy to GitHub Pages
+        if: ${{ success() }}  # Only deploy if all previous steps succeeded
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
