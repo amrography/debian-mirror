@@ -3,8 +3,8 @@ name: Build Debian Mirror
 on:
   push:
     branches: [ "main" ]
-  schedule:
-    - cron: "0 0 * * *"   # run daily at midnight
+  # schedule:
+  #   - cron: "0 0 * * *"   # run daily at midnight
 
 jobs:
   build:
@@ -20,9 +20,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y dpkg-dev gnupg curl
-
-      - name: Prepare repo structure
-        run: |
           mkdir -p public/pool/main
           mkdir -p public/dists/stable/main/binary-amd64
 
@@ -53,13 +50,8 @@ jobs:
           mkdir -p ../../public/pool/main/
           mv fzf-0.65.1.deb ../../public/pool/main/
 
-      - name: Download packages
+      - name: Download Ghostty
         run: |
-          # TopTracker
-          curl -L -o public/pool/main/toptracker_1.7.7-7583_amd64.deb \
-            https://d101nvfmxunqnl.cloudfront.net/desktop/builds/debian/toptracker_1.7.7-7583_amd64.deb
-
-          # Ghostty
           curl -L -o public/pool/main/ghostty_1.1.3-4_amd64.deb \
             https://download.opensuse.org/repositories/home:/clayrisser:/sid/Debian_Unstable/amd64/ghostty_1.1.3-4_amd64.deb
 
