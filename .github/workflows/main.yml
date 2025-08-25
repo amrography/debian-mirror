@@ -25,19 +25,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: public-fzf
-          path: public/fzf
+          path: ./public
 
       - name: Download ghostty artifact
         uses: actions/download-artifact@v4
         with:
           name: public-ghostty
-          path: public/ghostty
-
-      - name: Merge public directories
-        run: |
-          mkdir -p public/pool/main
-          cp -r public/fzf/pool/main/* public/pool/main/ || true
-          cp -r public/ghostty/pool/main/* public/pool/main/ || true
+          path: ./public
 
       - name: Generate Packages + Release
         run: |
