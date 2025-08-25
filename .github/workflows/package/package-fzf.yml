@@ -1,0 +1,12 @@
+name: Build fzf
+
+on:
+  workflow_call: {}
+
+jobs:
+  fzf:
+    uses: ./.github/workflows/packages/base.yml
+    with:
+      name: fzf
+      version: 0.65.1
+      url: https://github.com/junegunn/fzf/releases/download/v0.65.1/fzf-0.65.1-linux_amd64.tar.gz

@@ -1,0 +1,70 @@
+name: Base Debian Package Builder
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      url:
+        required: true
+        type: string
+      arch:
+        required: false
+        type: string
+        default: amd64
+      install_path:
+        required: false
+        type: string
+        default: /usr/local/bin
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev curl
+
+      - name: Build Debian package
+        run: |
+          PACKAGE_DIR="packages/${{ inputs.name }}"
+          mkdir -p "$PACKAGE_DIR"
+          cd "$PACKAGE_DIR"
+
+          curl -LO "${{ inputs.url }}"
+          FILE=$(basename "${{ inputs.url }}")
+
+          if [[ $FILE == *.tar.gz ]]; then
+            tar -xzf "$FILE"
+            BIN_NAME=$(basename "$FILE" .tar.gz)
+          else
+            BIN_NAME="$FILE"
+            mv "$FILE" "$BIN_NAME"
+          fi
+
+          mkdir -p "${{ inputs.name }}-${{ inputs.version }}/DEBIAN" \
+                  "${{ inputs.name }}-${{ inputs.version }}${{ inputs.install_path }}"
+          cp "$BIN_NAME" "${{ inputs.name }}-${{ inputs.version }}${{ inputs.install_path }}/"
+
+          cat <<EOF > "${{ inputs.name }}-${{ inputs.version }}/DEBIAN/control"
+          Package: ${{ inputs.name }}
+          Version: ${{ inputs.version }}
+          Section: utils
+          Priority: optional
+          Architecture: ${{ inputs.arch }}
+          Maintainer: Mirror Bot <mirror@githubactions.local>
+          Description: ${{ inputs.name }} - mirrored package
+          EOF
+
+          dpkg-deb --build "${{ inputs.name }}-${{ inputs.version }}"
+          mkdir -p ../../../public/pool/main
+          mv "${{ inputs.name }}-${{ inputs.version }}.deb" ../../../public/pool/main/
