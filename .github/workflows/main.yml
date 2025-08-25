@@ -22,13 +22,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download fzf artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: public-fzf
           path: public/fzf
 
       - name: Download ghostty artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: public-ghostty
           path: public/ghostty

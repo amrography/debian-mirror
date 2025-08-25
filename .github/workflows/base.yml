@@ -70,3 +70,9 @@ jobs:
           # Move to public pool
           mkdir -p ../../../public/pool/main
           mv "$DEB_DIR.deb" ../../../public/pool/main/
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-${{ inputs.name }}
+          path: public
