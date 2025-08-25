@@ -14,29 +14,35 @@ jobs:
   build-ghostty:
     uses: ./.github/workflows/package-ghostty.yml
 
-  # package-workflows:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       package: ['package-fzf.yml', 'package-ghostty.yml']
-  #   steps:
-  #     - name: Trigger package workflow
-  #       uses: peter-evans/workflow-dispatch@v1
-  #       with:
-  #         workflow: ${{ matrix.package }}
-  #         ref: main
-
   generate-release:
     needs: [build-fzf, build-ghostty]
-    # needs: [package-workflows]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Download fzf artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: public-fzf
+          path: public/fzf
+
+      - name: Download ghostty artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: public-ghostty
+          path: public/ghostty
+
+      - name: Merge public directories
+        run: |
+          mkdir -p public/pool/main
+          cp -r public/fzf/pool/main/* public/pool/main/ || true
+          cp -r public/ghostty/pool/main/* public/pool/main/ || true
+
       - name: Generate Packages + Release
         run: |
           set -e  # Exit immediately on any command failure
+          mkdir -p public/dists/stable/main/binary-amd64
           cd public
           dpkg-scanpackages --arch amd64 pool/main > dists/stable/main/binary-amd64/Packages
           gzip -k dists/stable/main/binary-amd64/Packages
