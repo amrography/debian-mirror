@@ -40,22 +40,21 @@ jobs:
           mkdir -p "$PACKAGE_DIR"
           cd "$PACKAGE_DIR"
 
-          curl -LO "${{ inputs.url }}"
-          FILE=$(basename "${{ inputs.url }}")
+          # Download the file directly as the binary name
+          BIN_NAME="${{ inputs.name }}"
+          curl -L "${{ inputs.url }}" -o "$BIN_NAME"
+          chmod +x "$BIN_NAME"
 
-          if [[ $FILE == *.tar.gz ]]; then
-            tar -xzf "$FILE"
-            BIN_NAME=$(basename "$FILE" .tar.gz)
-          else
-            BIN_NAME="$FILE"
-            mv "$FILE" "$BIN_NAME"
-          fi
+          # Create Debian package structure
+          DEB_DIR="${{ inputs.name }}-${{ inputs.version }}"
+          INSTALL_PATH="${{ inputs.install_path }}"
+          mkdir -p "$DEB_DIR/DEBIAN" "$DEB_DIR$INSTALL_PATH"
 
-          mkdir -p "${{ inputs.name }}-${{ inputs.version }}/DEBIAN" \
-                  "${{ inputs.name }}-${{ inputs.version }}${{ inputs.install_path }}"
-          cp "$BIN_NAME" "${{ inputs.name }}-${{ inputs.version }}${{ inputs.install_path }}/"
+          # Copy binary into package
+          cp "$BIN_NAME" "$DEB_DIR$INSTALL_PATH/"
 
-          cat <<EOF > "${{ inputs.name }}-${{ inputs.version }}/DEBIAN/control"
+          # Create control file
+          cat <<EOF > "$DEB_DIR/DEBIAN/control"
           Package: ${{ inputs.name }}
           Version: ${{ inputs.version }}
           Section: utils
@@ -65,6 +64,9 @@ jobs:
           Description: ${{ inputs.name }} - mirrored package
           EOF
 
-          dpkg-deb --build "${{ inputs.name }}-${{ inputs.version }}"
+          # Build Debian package
+          dpkg-deb --build "$DEB_DIR"
+
+          # Move to public pool
           mkdir -p ../../../public/pool/main
-          mv "${{ inputs.name }}-${{ inputs.version }}.deb" ../../../public/pool/main/
+          mv "$DEB_DIR.deb" ../../../public/pool/main/
