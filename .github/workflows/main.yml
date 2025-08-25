@@ -5,28 +5,27 @@ on:
     branches: ['main']
 
 jobs:
-  # build-fzf:
-  #   uses: ./.github/workflows/packages/package-fzf.yml
+  build-fzf:
+    uses: ./.github/workflows/packages/package-fzf.yml
 
-  # build-ghostty:
-  #   needs: build-fzf
-  #   uses: ./.github/workflows/packages/package-ghostty.yml
+  build-ghostty:
+    uses: ./.github/workflows/packages/package-ghostty.yml
 
-  package-workflows:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package: ['package-fzf.yml', 'package-ghostty.yml']
-    steps:
-      - name: Trigger package workflow
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: ${{ matrix.package }}
-          ref: main
+  # package-workflows:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       package: ['package-fzf.yml', 'package-ghostty.yml']
+  #   steps:
+  #     - name: Trigger package workflow
+  #       uses: peter-evans/workflow-dispatch@v1
+  #       with:
+  #         workflow: ${{ matrix.package }}
+  #         ref: main
 
   generate-release:
-    # needs: [build-fzf, build-ghostty]
-    needs: [package-workflows]
+    needs: [build-fzf, build-ghostty]
+    # needs: [package-workflows]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
