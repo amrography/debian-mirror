@@ -4,6 +4,9 @@ on:
   push:
     branches: ['main']
 
+permissions:
+  contents: write
+
 jobs:
   build-fzf:
     uses: ./.github/workflows/package-fzf.yml
@@ -27,8 +30,6 @@ jobs:
     needs: [build-fzf, build-ghostty]
     # needs: [package-workflows]
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
