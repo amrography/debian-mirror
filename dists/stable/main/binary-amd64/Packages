@@ -17,20 +17,3 @@ Description: a fast, feature-rich, and cross-platform terminal emulator that use
  While there are many excellent terminal emulators available, they all force you to choose between speed, features, or
  native UIs. Ghostty provides all three.
 
-Package: toptracker
-Version: 1.7.7-7583
-Architecture: amd64
-Maintainer: TopTracker Team <toptracker@toptal.com>
-Installed-Size: 146112
-Depends: libglib2.0-0 (>= 2.34), libstdc++6 (>= 4.9), libxcb-render-util0, libxcb-image0, libxcb-icccm4, libxcb-randr0, libxcb-keysyms1, libxkbcommon0, libxkbcommon-x11-0, libxss1, libappindicator3-1, libdbus-1-3, libpcre2-16-0, pipewire, libpipewire-0.3-0, libgtk-3-0, ffmpeg, libavcodec-extra
-Filename: pool/main/toptracker_1.7.7-7583_amd64.deb
-Size: 48371706
-MD5sum: 18e13146f277eb59a51dfb29928dfc73
-SHA1: 42e6ea1ed46fb66d41a47c1a11c23e996279a2ac
-SHA256: a1f591fd5b38fcae97d072502c327e119072d9610a1251b1d8594574f2941680
-Section: misc
-Priority: optional
-Homepage: https://www.toptal.com/tracker/
-Description: Time Tracking App. Free Forever.
- TopTracker is the first and only completely free tracking tool that helps remote teams track their time without being tied to a specific freelance marketplace.
-
